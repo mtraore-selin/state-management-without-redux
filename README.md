@@ -25,3 +25,10 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Integrate Effects with Store
+
+The effects are already listening to the dispatched actions and dispatching new actions. The key here is to ensure that the Store and Effects are well integrated:
+
+Store: Handles the state and passes all actions through the reducer.
+Effects: Listens to specific actions to handle side effects (like making API calls) and dispatches new actions based on the result.
