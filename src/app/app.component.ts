@@ -1,17 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Actions } from '../store/actions';
-import { AppEffects } from '../store/effects';
-import { Store } from '../store/store';
 import { TodoComponent } from './todo/todo.component';
 import { CommonModule } from '@angular/common';
 import { UserManagmentComponent } from './user-managment/user-managment.component';
-import { UserEffects } from '../store/user/user.effects';
-import { TodoEffects } from '../store/todo/todo.effects';
 import { UserSearchComponent } from './user-search/user-search.component';
-const actions = new Actions();
-const userEffects = new UserEffects(actions);
-const todoEffects = new TodoEffects(actions);
+import { providers } from '../store/providers';
 
 @Component({
   selector: 'app-root',
@@ -23,13 +16,7 @@ const todoEffects = new TodoEffects(actions);
     UserSearchComponent,
     CommonModule,
   ],
-  providers: [
-    { provide: Store, useFactory: () => new Store(actions) },
-    {
-      provide: AppEffects,
-      useFactory: () => new AppEffects(userEffects, todoEffects),
-    },
-  ],
+  providers,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

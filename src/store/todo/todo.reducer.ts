@@ -6,13 +6,19 @@ import {
   TOGGLE_TODO,
   LOAD_TODOS_SUCCESS,
   LOAD_TODOS_FAILURE,
+  LOAD_TODOS,
 } from './todo.action-types';
-// biome-ignore lint/style/useImportType: <explanation>
+// biome-ignore lint/style/useImportType: <explanation> LOAD_TODOS
 import { TodoState } from './todo.state';
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function todoReducer(state: TodoState, action: any): TodoState {
   switch (action.type) {
+    case LOAD_TODOS:
+      return {
+        ...state,
+        loading: true,
+      };
     case ADD_TODO:
       return {
         ...state,

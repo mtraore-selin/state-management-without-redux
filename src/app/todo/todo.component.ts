@@ -3,9 +3,6 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 // biome-ignore lint/style/useImportType: <explanation>
-// biome-ignore lint/style/useImportType: <explanation>
-import { AppEffects } from '../../store/effects';
-// biome-ignore lint/style/useImportType: <explanation>
 import { Store } from '../../store/store';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -17,6 +14,10 @@ import {
   REMOVE_TODO,
   TOGGLE_TODO,
 } from '../../store/todo/todo.action-types';
+import {
+  selectAllTodos,
+  selectTodoLoading,
+} from '../../store/todo/todo.selectors';
 
 @Component({
   selector: 'app-todo',
@@ -45,17 +46,22 @@ import {
 })
 export class TodoComponent {
   todos$: Observable<Todo[]>;
+  loading$: Observable<boolean>;
   newTodoTitle = 'Test';
 
-  constructor(private store: Store, private effects: AppEffects) {
+  constructor(private store: Store) {
     // this.todos$ = this.store.getState().pipe(map((state) => state.todo.todos));
-    this.todos$ = this.store.select((state) => state.todo.todos);
+    this.todos$ = this.store.select(selectAllTodos);
+    this.loading$ = this.store.select(selectTodoLoading);
   }
 
   ngOnInit() {
-    this.store.dispatch({ type: LOAD_TODOS });
+    this.loadTodos();
   }
 
+  loadTodos() {
+    this.store.dispatch({ type: LOAD_TODOS });
+  }
   addTodo() {
     if (this.newTodoTitle.trim()) {
       this.store.dispatch({ type: ADD_TODO, payload: this.newTodoTitle });
